@@ -33,6 +33,8 @@ class Rover:
             if( self.successful_flag == False):
                 # Mine explodes the move after the rover leaves it
                 self.set_direction(move)
+                print("Terminate")
+                print(self.move_sequence)
                 break
             self.set_direction(move)
         self.generate_path()
@@ -45,7 +47,7 @@ class Rover:
 
         # 2. Save sequence of moves
         self.move_sequence = response.json()['data']['moves']
-        # print("\nRover {num}\nmove_seq = {moves}".format(num = self.rover_number, moves = self.move_sequence))  
+        print("\nRover {num}\nmove_seq = {moves}".format(num = self.rover_number, moves = self.move_sequence))  
         # print("Move type: {type}".format( type = type(self.move_sequence[0])) )
 
         return self.move_sequence

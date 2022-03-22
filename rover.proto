@@ -1,57 +1,61 @@
+// Update rover.proto command
+// python -m grpc_tools.protoc -I. --python_out=. --grpc_python_out=. rover.proto
 syntax = "proto3";
 
-// [S1] Get map 
-message mapRequest {}
+service RoverService{
+
+    // [S1] Get map 
+    rpc generate_map_list(mapRequest) returns (mapResponse) {}
+
+    // [S2] Get stream of commands 
+    rpc getRoverMoves(moveRequest) returns (moveResponse) {}
+
+    // [S3] Get mine serial number
+    rpc get_serial_num(mineSerialNumRequest) returns (mineSerialNumResponse) {}
+
+    // [S4] Let server know if rover has executed all commands successfully or not (mine might expload)
+    rpc get_successful_flag(roverSuccessfulFlagRequest) returns (roverSuccessfulFlagResponse){}
+
+    // [S5] Share a min PIN with the server
+    rpc get_mine_pin(minePinRequest) returns (minePinResponse) {}
+}
+
+// Map
+message mapRequest {
+    int32 rover_number = 1;
+}
 
 message mapResponse {
     repeated string internal_array = 1;
 }
 
-service getMapService{
-    rpc generate_map_list(mapRequest) returns (mapResponse) {}
+// Moves
+message moveRequest {
+    int32 rover_number = 1;
 }
-
-// [S2] Get stream of commands 
-message moveRequest {}
 
 message moveResponse {
     string move_sequence = 1;
 }
 
-service getMoveSequenceService{
-    rpc get_rover_moves(moveRequest) returns (moveResponse) {}
-}
-
-// [S3] Get mine serial number
+// Mine Serial Number
 message mineSerialNumRequest {}
 
 message mineSerialNumResponse {
     string serialNum = 1;
 }
 
-service getMineSerialNum{
-    rpc get_serial_num(mineSerialNumRequest) returns (mineSerialNumResponse) {}
-}
-
-// [S4] Let server know if rover has executed all commands successfully or not (mine might expload)
+// Rover Success Flag
 message roverSuccessfulFlagRequest {}
 
 message roverSuccessfulFlagResponse {
     bool successfulFlag = 1;
 }
 
-service getSuccessfulFlag{
-    rpc get_successful_flag(roverSuccessfulFlagRequest) returns (roverSuccessfulFlagResponse){}
-}
-
-// [S5] Share a min PIN with the server
+// Mine Pin
 message minePinRequest {}
 
 message minePinResponse {
     string mine_pin = 1;
-}
-
-service shareMinePin{
-    rpc get_mine_pin(minePinRequest) returns (minePinResponse) {}
 }
 

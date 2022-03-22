@@ -14,7 +14,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0brover.proto\"\x0c\n\nmapRequest\"%\n\x0bmapResponse\x12\x16\n\x0einternal_array\x18\x01 \x03(\t\"\r\n\x0bmoveRequest\"%\n\x0cmoveResponse\x12\x15\n\rmove_sequence\x18\x01 \x01(\t\"\x16\n\x14mineSerialNumRequest\"*\n\x15mineSerialNumResponse\x12\x11\n\tserialNum\x18\x01 \x01(\t\"\x1c\n\x1aroverSuccessfulFlagRequest\"5\n\x1broverSuccessfulFlagResponse\x12\x16\n\x0esuccessfulFlag\x18\x01 \x01(\x08\"\x10\n\x0eminePinRequest\"#\n\x0fminePinResponse\x12\x10\n\x08mine_pin\x18\x01 \x01(\t2A\n\rgetMapService\x12\x30\n\x11generate_map_list\x12\x0b.mapRequest\x1a\x0c.mapResponse\"\x00\x32J\n\x16getMoveSequenceService\x12\x30\n\x0fget_rover_moves\x12\x0c.moveRequest\x1a\r.moveResponse\"\x00\x32U\n\x10getMineSerialNum\x12\x41\n\x0eget_serial_num\x12\x15.mineSerialNumRequest\x1a\x16.mineSerialNumResponse\"\x00\x32g\n\x11getSuccessfulFlag\x12R\n\x13get_successful_flag\x12\x1b.roverSuccessfulFlagRequest\x1a\x1c.roverSuccessfulFlagResponse\"\x00\x32\x43\n\x0cshareMinePin\x12\x33\n\x0cget_mine_pin\x12\x0f.minePinRequest\x1a\x10.minePinResponse\"\x00\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0brover.proto\"\"\n\nmapRequest\x12\x14\n\x0crover_number\x18\x01 \x01(\x05\"%\n\x0bmapResponse\x12\x16\n\x0einternal_array\x18\x01 \x03(\t\"\r\n\x0bmoveRequest\"%\n\x0cmoveResponse\x12\x15\n\rmove_sequence\x18\x01 \x01(\t\"\x16\n\x14mineSerialNumRequest\"*\n\x15mineSerialNumResponse\x12\x11\n\tserialNum\x18\x01 \x01(\t\"\x1c\n\x1aroverSuccessfulFlagRequest\"5\n\x1broverSuccessfulFlagResponse\x12\x16\n\x0esuccessfulFlag\x18\x01 \x01(\x08\"\x10\n\x0eminePinRequest\"#\n\x0fminePinResponse\x12\x10\n\x08mine_pin\x18\x01 \x01(\t2\xbc\x02\n\x0cRoverService\x12\x30\n\x11generate_map_list\x12\x0b.mapRequest\x1a\x0c.mapResponse\"\x00\x12.\n\rgetRoverMoves\x12\x0c.moveRequest\x1a\r.moveResponse\"\x00\x12\x41\n\x0eget_serial_num\x12\x15.mineSerialNumRequest\x1a\x16.mineSerialNumResponse\"\x00\x12R\n\x13get_successful_flag\x12\x1b.roverSuccessfulFlagRequest\x1a\x1c.roverSuccessfulFlagResponse\"\x00\x12\x33\n\x0cget_mine_pin\x12\x0f.minePinRequest\x1a\x10.minePinResponse\"\x00\x62\x06proto3')
 
 
 
@@ -98,42 +98,30 @@ minePinResponse = _reflection.GeneratedProtocolMessageType('minePinResponse', (_
   })
 _sym_db.RegisterMessage(minePinResponse)
 
-_GETMAPSERVICE = DESCRIPTOR.services_by_name['getMapService']
-_GETMOVESEQUENCESERVICE = DESCRIPTOR.services_by_name['getMoveSequenceService']
-_GETMINESERIALNUM = DESCRIPTOR.services_by_name['getMineSerialNum']
-_GETSUCCESSFULFLAG = DESCRIPTOR.services_by_name['getSuccessfulFlag']
-_SHAREMINEPIN = DESCRIPTOR.services_by_name['shareMinePin']
+_ROVERSERVICE = DESCRIPTOR.services_by_name['RoverService']
 if _descriptor._USE_C_DESCRIPTORS == False:
 
   DESCRIPTOR._options = None
   _MAPREQUEST._serialized_start=15
-  _MAPREQUEST._serialized_end=27
-  _MAPRESPONSE._serialized_start=29
-  _MAPRESPONSE._serialized_end=66
-  _MOVEREQUEST._serialized_start=68
-  _MOVEREQUEST._serialized_end=81
-  _MOVERESPONSE._serialized_start=83
-  _MOVERESPONSE._serialized_end=120
-  _MINESERIALNUMREQUEST._serialized_start=122
-  _MINESERIALNUMREQUEST._serialized_end=144
-  _MINESERIALNUMRESPONSE._serialized_start=146
-  _MINESERIALNUMRESPONSE._serialized_end=188
-  _ROVERSUCCESSFULFLAGREQUEST._serialized_start=190
-  _ROVERSUCCESSFULFLAGREQUEST._serialized_end=218
-  _ROVERSUCCESSFULFLAGRESPONSE._serialized_start=220
-  _ROVERSUCCESSFULFLAGRESPONSE._serialized_end=273
-  _MINEPINREQUEST._serialized_start=275
-  _MINEPINREQUEST._serialized_end=291
-  _MINEPINRESPONSE._serialized_start=293
-  _MINEPINRESPONSE._serialized_end=328
-  _GETMAPSERVICE._serialized_start=330
-  _GETMAPSERVICE._serialized_end=395
-  _GETMOVESEQUENCESERVICE._serialized_start=397
-  _GETMOVESEQUENCESERVICE._serialized_end=471
-  _GETMINESERIALNUM._serialized_start=473
-  _GETMINESERIALNUM._serialized_end=558
-  _GETSUCCESSFULFLAG._serialized_start=560
-  _GETSUCCESSFULFLAG._serialized_end=663
-  _SHAREMINEPIN._serialized_start=665
-  _SHAREMINEPIN._serialized_end=732
+  _MAPREQUEST._serialized_end=49
+  _MAPRESPONSE._serialized_start=51
+  _MAPRESPONSE._serialized_end=88
+  _MOVEREQUEST._serialized_start=90
+  _MOVEREQUEST._serialized_end=103
+  _MOVERESPONSE._serialized_start=105
+  _MOVERESPONSE._serialized_end=142
+  _MINESERIALNUMREQUEST._serialized_start=144
+  _MINESERIALNUMREQUEST._serialized_end=166
+  _MINESERIALNUMRESPONSE._serialized_start=168
+  _MINESERIALNUMRESPONSE._serialized_end=210
+  _ROVERSUCCESSFULFLAGREQUEST._serialized_start=212
+  _ROVERSUCCESSFULFLAGREQUEST._serialized_end=240
+  _ROVERSUCCESSFULFLAGRESPONSE._serialized_start=242
+  _ROVERSUCCESSFULFLAGRESPONSE._serialized_end=295
+  _MINEPINREQUEST._serialized_start=297
+  _MINEPINREQUEST._serialized_end=313
+  _MINEPINRESPONSE._serialized_start=315
+  _MINEPINRESPONSE._serialized_end=350
+  _ROVERSERVICE._serialized_start=353
+  _ROVERSERVICE._serialized_end=669
 # @@protoc_insertion_point(module_scope)
