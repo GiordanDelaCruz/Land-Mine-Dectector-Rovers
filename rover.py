@@ -1,4 +1,5 @@
 from enum import Enum
+from turtle import update
 import requests
 import json
 import time
@@ -22,11 +23,17 @@ class Rover:
         self.direction = Direction.SOUTH  #initial direction for rover
         self.map_2d_list = self.generate_map_list() #create 2d list that will save the map layout
         self.path = self.generate_path() #write the rover path in the text file
+        self.successful_flag = True
         self.start_rover()
 
     # Initialize Rovers
     def start_rover(self):
         for move in self.move_sequence:
+            # Terminate moves if successful Flag is False
+            if( self.successful_flag == False):
+                # Mine explodes the move after the rover leaves it
+                self.set_direction(move)
+                break
             self.set_direction(move)
         self.generate_path()
 
@@ -51,7 +58,6 @@ class Rover:
             return
         #Dig    
         if(move == 'D'):
-
             return
         
         # Based off current direction of rover, determine the new direction of the rover if the
@@ -109,6 +115,19 @@ class Rover:
         if (self.direction ==  Direction.WEST and self.location[0] > 0):
             self.location[0] -= 1
 
+        # Attempt to write path in map_2d_list
+        self.update_path()
+
+        # self.map_2d_list[self.location[1]][self.location[0]] = '*'
+
+    # Update path in map_2d_list
+    def update_path(self):
+        # Check if a mine is dectected
+        if( self.map_2d_list[self.location[1]][self.location[0]] == "1" ):
+            print("Mine detected")
+            self.successful_flag = False
+            self.move_sequence = ""
+        
         self.map_2d_list[self.location[1]][self.location[0]] = '*'
 
     # Create map_2d_list from map.txt file
@@ -158,19 +177,28 @@ class Rover:
                     file.write(j)
                 file.write('\n')
 
+    # Determine if the rover successfully implemented all moves 
+    def get_successful_flag(self):
+        return self.successful_flag
+
 
 # ---------------------------------------------------------------
 # --                TESTING & DEBUGGING                        --
 # ---------------------------------------------------------------
 # Main function
 def main():
-    start = time.time()
-    for i in range(1,11):
-        Rover(i)
-    end = time.time()
-    print("************************************************************")
-    print("*                       Sequential                         *")
-    print("************************************************************\n")
-    print("The computation time was: ", (end-start), "seconds\n")
+    # start = time.time()
+    # for i in range(1,11):
+    #     Rover(i)
+    # end = time.time()
+    # print("************************************************************")
+    # print("*                       Sequential                         *")
+    # print("************************************************************\n")
+    # print("The computation time was: ", (end-start), "seconds\n")
 
-# main()
+    roverObj = Rover(1)
+    print("Rover {} moves: {}".format(roverObj.rover_number, roverObj.move_sequence))
+    print("Rover {} map: {}".format(roverObj.rover_number, roverObj.map_2d_list))
+    print("Rover {} successFlag: {}".format(roverObj.rover_number, roverObj.successful_flag))
+
+main()

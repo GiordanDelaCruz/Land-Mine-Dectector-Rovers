@@ -8,6 +8,7 @@ class Mine:
         self.serial_num = self.get_serial_num()
         self.location = self.get_loocation()
         self.hash_value = self.get_hash_value()
+        self.pin = 0
         self.disarm_flag = False
 
     # Read mine file
@@ -41,6 +42,10 @@ class Mine:
     def get_hash_value(self):
          return self.mine_info[self.number - 1][3]
 
+    # get mine pin
+    def get_mine_pin(self):
+        return self.pin
+
     # disarm a mine
     def disarm_mine(self):
 
@@ -55,14 +60,14 @@ class Mine:
             # Determining if hash value starts at 0
             if( output.hexdigest()[0] == "0"):
 
-                # Save result
-                result = output
+                # Save pin
+                self.pin = output.hexdigest()
 
                 # Update mine disarm flag
                 self.disarm_flag = True
 
                 # Printing the equivalent hexadecimal value.
-                print("Mine #{}: The hexadecimal equivalent of SHA256 is\n{}\n".format(self.number, result.hexdigest()))
+                print("Mine #{}: The hexadecimal equivalent of SHA256 is\n{}\n".format(self.number, self.pin))
                 break
             temp_mine_key += "1"
 
@@ -84,4 +89,5 @@ def main():
         mineObj = Mine(i)
         mineObj.disarm_mine()
 
-# main()
+    # print("Mine #{}: The pin is {}".format(mineObj.number, mineObj.get_mine_pin()))
+main()
