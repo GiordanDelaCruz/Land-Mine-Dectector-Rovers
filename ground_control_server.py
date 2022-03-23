@@ -8,10 +8,7 @@ import rover_pb2_grpc as pb2_grpc
 from enum import Enum
 from turtle import update
 import requests
-import rover
-
-# Global variables
-BASE_LINK = "https://coe892.reev.dev/lab1/rover/"
+import rover_lab_2
 
 class GroundControl(pb2_grpc.RoverServiceServicer):
 
@@ -32,11 +29,10 @@ class GroundControl(pb2_grpc.RoverServiceServicer):
     #     return pb2.moveResponse(move_sequence= self.get_rover_moves(request.rover_number))
 
     def getRoverMoves(self, request, context):
-        response = pb2.moveRequest()
-
-        roverObj = rover.Rover(request.value)
-        response.value =  roverObj.get_rover_moves()
-        return pb2.moveResponse(move_sequence= self.get_rover_moves)
+        response = pb2.moveResponse()
+        roverObj = rover_lab_2.Rover()
+        response.move_sequence = roverObj.get_rover_moves(request.rover_number)
+        return response
 
 def serve():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
