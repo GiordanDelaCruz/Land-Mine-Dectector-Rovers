@@ -6,7 +6,7 @@ class Mine:
         self.number = number
         self.mine_info = self.get_mine_info()
         self.serial_num = self.get_serial_num()
-        self.location = self.get_loocation()
+        self.location = self.get_location()
         self.hash_value = self.get_hash_value()
         self.pin = 0
         self.disarm_flag = False
@@ -34,7 +34,7 @@ class Mine:
         return self.mine_info[self.number - 1][0]
 
     # get location of mine
-    def get_loocation(self):
+    def get_location(self):
         location = [self.mine_info[self.number - 1][1], self.mine_info[self.number - 1][2] ]
         return location
 
@@ -90,4 +90,4 @@ def main():
         mineObj.disarm_mine()
 
     # print("Mine #{}: The pin is {}".format(mineObj.number, mineObj.get_mine_pin()))
-main()
+# main()

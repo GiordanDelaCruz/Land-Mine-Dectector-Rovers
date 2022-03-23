@@ -3,6 +3,7 @@ from turtle import update
 import requests
 import json
 import time
+import mine
 
 # Global variables
 BASE_LINK = "https://coe892.reev.dev/lab1/rover/"
@@ -18,25 +19,31 @@ class Rover:
     # __int__ function
     def __init__(self, number):
         self.rover_number = number #rover number
-        self.move_sequence = self.get_rover_moves() #save rover's sequence of moves
+        self.move_sequence = ""
         self.location = [0, 0] #current location of rover represented by [x,y]
         self.direction = Direction.SOUTH  #initial direction for rover
-        self.map_2d_list = self.generate_map_list() #create 2d list that will save the map layout
-        self.path = self.generate_path() #write the rover path in the text file
+        self.map_2d_list = []
+        # self.path =
         self.successful_flag = True
         self.start_rover()
 
     # Initialize Rovers
     def start_rover(self):
+
+        self.move_sequence = self.get_rover_moves() #save rover's sequence of moves
+        self.map_2d_list = self.generate_map_list() #create 2d list that will save the map layout
+        # self.path = self.generate_path() #write the rover path in the text file
+
         for move in self.move_sequence:
             # Terminate moves if successful Flag is False
             if( self.successful_flag == False):
                 # Mine explodes the move after the rover leaves it
                 self.set_direction(move)
                 print("Terminate")
-                print(self.move_sequence)
                 break
-            self.set_direction(move)
+            else:
+                self.set_direction(move)
+
         self.generate_path()
 
     # Retrieve rover moves from API
@@ -47,7 +54,8 @@ class Rover:
 
         # 2. Save sequence of moves
         self.move_sequence = response.json()['data']['moves']
-        print("\nRover {num}\nmove_seq = {moves}".format(num = self.rover_number, moves = self.move_sequence))  
+        # self.move_sequence = 'LMDM'
+        # print("\nRover {}\nmove_seq = {}".format(self.rover_number, self.move_sequence))  
         # print("Move type: {type}".format( type = type(self.move_sequence[0])) )
 
         return self.move_sequence
@@ -57,9 +65,14 @@ class Rover:
         #Move
         if(move == 'M'):
             self.set_location()
+
+            # Attempt to write path in map_2d_list
+            self.update_path(move)
             return
         #Dig    
         if(move == 'D'):
+            # Attempt to write path in map_2d_list
+            self.update_path(move)
             return
         
         # Based off current direction of rover, determine the new direction of the rover if the
@@ -117,19 +130,29 @@ class Rover:
         if (self.direction ==  Direction.WEST and self.location[0] > 0):
             self.location[0] -= 1
 
-        # Attempt to write path in map_2d_list
-        self.update_path()
-
+        # DEBUG
+        # print("location {}:".format(self.location))
         # self.map_2d_list[self.location[1]][self.location[0]] = '*'
 
     # Update path in map_2d_list
-    def update_path(self):
-        # Check if a mine is dectected
-        if( self.map_2d_list[self.location[1]][self.location[0]] == "1" ):
-            print("Mine detected")
-            self.successful_flag = False
-            self.move_sequence = ""
-        
+    def update_path(self, move):
+        # Checkif a mine is dectected, and always disarm it
+        if(self.map_2d_list[self.location[0]][self.location[1]] == "1"):
+
+                    
+            # Disarm correct mine
+            for i in range(1, 5):
+                mineObj = mine.Mine(i)
+                # print("Mine {} Location: {}".format(mineObj.number, mineObj.location))
+                # print("Rover {} Location: {}\n".format(self.rover_number, self.location))
+
+                if(int(mineObj.location[0]) == self.location[0] and int(mineObj.location[1]) == self.location[1]):
+                    # print("inside")
+                    mineObj.disarm_mine()
+                    break
+
+            # print("[+] MINE DISARM SUCCESSFUL\n")
+                  
         self.map_2d_list[self.location[1]][self.location[0]] = '*'
 
     # Create map_2d_list from map.txt file
@@ -198,9 +221,12 @@ def main():
     # print("************************************************************\n")
     # print("The computation time was: ", (end-start), "seconds\n")
 
-    roverObj = Rover(1)
-    print("Rover {} moves: {}".format(roverObj.rover_number, roverObj.move_sequence))
-    print("Rover {} map: {}".format(roverObj.rover_number, roverObj.map_2d_list))
-    print("Rover {} successFlag: {}".format(roverObj.rover_number, roverObj.successful_flag))
+    for i in range(1, 11):
+        # i = 1
+        roverObj = Rover(i)
+        print("Rover {} moves: {}".format(roverObj.rover_number, roverObj.move_sequence))
+        print("Rover {} map: {}".format(roverObj.rover_number, roverObj.map_2d_list))
+        print("Rover {} successFlag: {}".format(roverObj.rover_number, roverObj.successful_flag))
+        print("Rover {} location: {}\n".format(roverObj.rover_number, roverObj.location))
 
-main()
+# main()
